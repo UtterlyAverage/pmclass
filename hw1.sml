@@ -5,29 +5,58 @@
  * Dates are of type int*int*int
  * As function parameters, I'll use 'd' to denote a date. E.g. d1, d2, etc. *)
 
-(* Helper values and functions
- *          Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec   *)
-val days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-(* Return sum of fisrt 'n' elements in 'reasonable' list
- * - no check for errors: going past end of list, negative n, etc. *)
-fun sum_n (n: int, l: int list) =
-    if n = 0 then 0
-    else hd l + sum_n(n-1, tl l)
-
-(* Return "day of year" as required in assignment *)
+(* Return "day of year" as required in assignment
+ * - using let here means we don't have to check for pathalogical cases *)
 fun day_of_year (d: int*int*int) =
-    sum_n(#2 d, days) + (#3 d)
+    let
+                 (* Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec *)
+        val days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        fun sum_n (n: int, l: int list) =
+            if n = 0 then 0
+            else hd l + sum_n(n-1, tl l)
+    in           
+        sum_n(#2 d - 1, days) + #3 d  (* Sum to month BEFORE day *)
+    end
 
-fun day_in_year (d1: int*int*int) =
-    (* Sum days in prior months *)
-    (* Add the day of this month *)
-    (* Ignore the year *)
-    true
-
-
-(* Problem 1: return true if d1 older than d2, false otherwise *)
+(* Problem 1: return true if d1 earlier than d2, false otherwise *)
 fun is_older (d1: int*int*int, d2: int*int*int) =
-    if #3 d1 > #3 d2
-    then true
-    else false
+    let
+        val yr1  = #1 d1;            val yr2  = #1 d2
+        val doy1 = day_of_year(d1);  val doy2 = day_of_year(d2)
+    in
+        if yr1 < yr2 then true 
+        else
+            if yr1 > yr2 then false
+            else
+(*  This is BAAAAAD. Go over lecture and fix. No if then true else false *)
+                if doy1 < doy2 then true
+                else false
+    end
+
+(* Problem 2: return NUMBER of dates in list that occur in provided month *)
+fun number_in_month (l: (int*int*int) list, m: int) =
+    if null l then 0
+    else 
+        if #2 (hd l) = m
+        then 1 + number_in_month(tl l, m)
+        else number_in_month(tl l, m)
+
+(* Problem 3: like problem 2, but check for any dates in a LIST of months *)
+fun number_in_months (l: (int*int*int) list, m: int list) =
+    if null m then 0
+    else number_in_month(l, hd m) + number_in_months(l, tl m)
+
+(* Problem 4: return LIST of dates in list that occur in provided month *)
+fun dates_in_month (l: (int*int*int) list, m: int) =
+    if null l then []
+    else 
+        if #2 (hd l) = m
+        then hd l :: dates_in_month(tl l, m)
+        else dates_in_month(tl l, m)
+
+(* Problem 5: like problem 4, but check for any dates in a LIST of months *)
+fun dates_in_months (l: (int*int*int) list, m: int list) =
+    if null m then []
+    else dates_in_month(l, hd m) :: dates_in_months(l, tl m)
+
+
