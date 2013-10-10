@@ -18,20 +18,11 @@ fun day_of_year (d: int*int*int) =
         sum_n(#2 d - 1, days) + #3 d  (* Sum to month BEFORE day *)
     end
 
+
 (* Problem 1: return true if d1 earlier than d2, false otherwise *)
 fun is_older (d1: int*int*int, d2: int*int*int) =
-    let
-        val yr1  = #1 d1;            val yr2  = #1 d2
-        val doy1 = day_of_year(d1);  val doy2 = day_of_year(d2)
-    in
-        if yr1 < yr2 then true 
-        else
-            if yr1 > yr2 then false
-            else
-(*  This is BAAAAAD. Go over lecture and fix. No if then true else false *)
-                if doy1 < doy2 then true
-                else false
-    end
+    #1 d1 < #1 d2  orelse  #1 d1 = #1 d2  andalso  day_of_year(d1) < day_of_year(d2)
+
 
 (* Problem 2: return NUMBER of dates in list that occur in provided month *)
 fun number_in_month (l: (int*int*int) list, m: int) =
@@ -54,9 +45,9 @@ fun dates_in_month (l: (int*int*int) list, m: int) =
         then hd l :: dates_in_month(tl l, m)
         else dates_in_month(tl l, m)
 
-(* Problem 5: like problem 4, but check for any dates in a LIST of months *)
+(* Problem 5: like problem 4, but check for ANY dates in a LIST of months *)
 fun dates_in_months (l: (int*int*int) list, m: int list) =
     if null m then []
-    else dates_in_month(l, hd m) :: dates_in_months(l, tl m)
+    else dates_in_month(l, hd m) @ dates_in_months(l, tl m)
 
 

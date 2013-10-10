@@ -10,6 +10,7 @@ use "hw1.sml";
 
 
 val al     = (1955,  7, 27)
+val boo    = (1990,  7, 24)
 val tiwi   = (1961, 12, 11)
 val fourth = (1776,  7,  4)
 val moon   = (1969,  7, 21)
@@ -18,7 +19,91 @@ val vj     = (1945,  9,  2)
 val ve     = (1945,  5,  8)
 val nine11 = (2001,  9, 11)
 
-val test1 = is_older((1,2,3),(2,3,4)) = true
+val dates  = [al,boo,tiwi,fourth,moon,pearl,vj,ve,nine11]
+
+val test_is_older = 
+    is_older((1,2,3),(2,3,4)) = true  andalso
+    is_older((3,2,3),(2,3,4)) = false andalso
+    is_older((1,1,1),(1,1,1)) = false andalso
+    is_older((1,2,2),(1,2,3)) = true  andalso
+    is_older((1,2,2),(1,2,1)) = false andalso
+    is_older(al,tiwi)         = true  andalso
+    is_older(boo,al)          = false andalso
+    is_older(moon,moon)       = false
+
+val test_number_in_month =
+    number_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],2) = 3 andalso
+    number_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],1) = 1 andalso
+    number_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],4) = 0 andalso
+    number_in_month(dates,7)                             = 4 andalso
+    number_in_month(dates,12)                            = 2 andalso
+    number_in_month(dates,9)                             = 2 andalso
+    number_in_month([],9)                                = 0 andalso
+    number_in_month(dates,6)                             = 0
+
+val test_number_in_months =
+    number_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[2,6]) = 3 andalso
+    number_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[])    = 0 andalso
+    number_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[1,2]) = 4 andalso
+    number_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[4])   = 0 andalso
+    number_in_months(dates,[7,12,11])                         = 6 andalso
+    number_in_months(dates,[9,5,12,7])                        = 9 andalso
+    number_in_months(dates,[7,12,5,9])                        = 9 andalso
+    number_in_months(dates,[])                                = 0 andalso
+    number_in_months(dates,[6])                               = 0 andalso
+    number_in_months([],[])                                   = 0 andalso
+    number_in_months([],[12])                                 = 0
+
+val test_dates_in_month =
+    dates_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],2)              = 
+                   [(1,2,3),(2,2,4),        (3,2,6)]                 andalso
+    dates_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],1)              =
+                   [(1,1,3)]                                         andalso
+    dates_in_month([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],4)              =
+                   []                                                andalso
+    dates_in_month(dates,7)                                          = 
+                   [(1955,7,27),(1990,7,24),(1776,7,4),(1969,7,21)]  andalso
+    dates_in_month(dates,12)                                         = 
+                   [(1961,12,11),(1941,12,7)]                        andalso
+    dates_in_month(dates,9)                                          =
+                   [(1945,9,2),(2001,9,11)]                          andalso
+    dates_in_month([],9)                                             =
+                   []                                                andalso
+    dates_in_month(dates,6)                                          =
+                   []
+
+val test_dates_in_months =
+    dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[2])              = 
+                    [(1,2,3),(2,2,4),        (3,2,6)]                   andalso
+    dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[1])              =
+                    [                (1,1,3)        ]                   andalso
+    dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[1,2])            =
+                    [(1,2,3),(2,2,4),(1,1,3),(3,2,6)]                   andalso
+    dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[2,1])            =
+                    [(1,2,3),(2,2,4),(1,1,3),(3,2,6)]                   andalso
+    dates_in_months(dates,[7])                                          = 
+                    [(1955,7,27),(1990,7,24),(1776,7,4),(1969,7,21)]    andalso
+    dates_in_months(dates,[9,12])                                       = 
+                    [(1945,9,2),(2001,9,11),(1961,12,11),(1941,12,7)]   andalso
+    dates_in_months(dates,[12,9])                                       =
+                    [(1945,9,2),(2001,9,11),(1961,12,11),(1941,12,7)]   andalso
+    dates_in_months([],[9])                                             =
+                    []                                                  andalso
+    dates_in_months(dates,[1,2,3,4])                                    =
+                    []                                                  andalso
+    dates_in_months(dates,[4,3,2,1])                                    =
+                    []                                                  andalso
+    dates_in_months(dates,[])                                           =
+                    []                                                  andalso
+    dates_in_months([],[])                                              =
+                    []
+
+val test_all =
+    test_is_older         = true andalso
+    test_number_in_month  = true andalso
+    test_number_in_months = true andalso
+    test_dates_in_month   = true andalso
+    test_dates_in_months  = true
 
 (*
 val test2 = number_in_month([(2012,2,28),(2013,12,1)],2) = 1
