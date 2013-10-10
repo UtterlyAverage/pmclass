@@ -78,15 +78,15 @@ val test_dates_in_months =
     dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[1])              =
                     [                (1,1,3)        ]                   andalso
     dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[1,2])            =
-                    [(1,2,3),(2,2,4),(1,1,3),(3,2,6)]                   andalso
+                    [(1,1,3),(1,2,3),(2,2,4),(3,2,6)]                   andalso
     dates_in_months([(1,2,3),(2,2,4),(1,1,3),(3,2,6)],[2,1])            =
-                    [(1,2,3),(2,2,4),(1,1,3),(3,2,6)]                   andalso
+                    [(1,2,3),(2,2,4),(3,2,6),(1,1,3)]                   andalso
     dates_in_months(dates,[7])                                          = 
-                    [(1955,7,27),(1990,7,24),(1776,7,4),(1969,7,21)]    andalso
+                    [al,boo,fourth,moon]                                andalso
     dates_in_months(dates,[9,12])                                       = 
-                    [(1945,9,2),(2001,9,11),(1961,12,11),(1941,12,7)]   andalso
+                    [vj,nine11,tiwi,pearl]                              andalso
     dates_in_months(dates,[12,9])                                       =
-                    [(1945,9,2),(2001,9,11),(1961,12,11),(1941,12,7)]   andalso
+                    [tiwi,pearl,vj,nine11]                              andalso
     dates_in_months([],[9])                                             =
                     []                                                  andalso
     dates_in_months(dates,[1,2,3,4])                                    =
@@ -98,12 +98,26 @@ val test_dates_in_months =
     dates_in_months([],[])                                              =
                     []
 
+val test_get_nth =
+    get_nth(["a", "b", "c", "d", "e"], 1) = "a"   andalso
+    get_nth(["a", "b", "c", "d", "e"], 2) = "b"   andalso
+    get_nth(["a", "b", "c", "d", "e"], 3) = "c"   andalso
+    get_nth(["a", "b", "c", "d", "e"], 4) = "d"   andalso
+    get_nth(["a", "b", "c", "d", "e"], 5) = "e"
+
+val test_date_to_string =
+    date_to_string(al)     = "July 27, 1955"      andalso
+    date_to_string(tiwi)   = "December 11, 1961"  andalso
+    date_to_string(nine11) = "September 11, 2001"
+
 val test_all =
     test_is_older         = true andalso
     test_number_in_month  = true andalso
     test_number_in_months = true andalso
     test_dates_in_month   = true andalso
-    test_dates_in_months  = true
+    test_dates_in_months  = true andalso
+    test_get_nth          = true andalso
+    test_date_to_string   = true
 
 (*
 val test2 = number_in_month([(2012,2,28),(2013,12,1)],2) = 1
