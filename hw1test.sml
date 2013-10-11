@@ -110,14 +110,34 @@ val test_date_to_string =
     date_to_string(tiwi)   = "December 11, 1961"  andalso
     date_to_string(nine11) = "September 11, 2001"
 
+val test_number_before_matching_sum =
+    number_before_matching_sum(10, [1,2,3,4,5,6,7,8]) = 3     andalso
+    number_before_matching_sum(11, [1,2,3,4,5,6,7,8]) = 4     andalso
+    number_before_matching_sum(1,  [1,2,3,4,5,6,7,8]) = 0 
+
+val test_what_month =
+    what_month(  2) =  1   andalso
+    what_month( 31) =  1   andalso
+    what_month( 32) =  2   andalso
+    what_month(365) = 12
+
+val test_month_range =
+    month_range(1,2) = [1,1]               andalso
+    month_range(2,1) = []                  andalso
+    month_range(31,32) = [1,2]             andalso
+    length(month_range(1,365)) = 365
+
 val test_all =
-    test_is_older         = true andalso
-    test_number_in_month  = true andalso
-    test_number_in_months = true andalso
-    test_dates_in_month   = true andalso
-    test_dates_in_months  = true andalso
-    test_get_nth          = true andalso
-    test_date_to_string   = true
+    test_is_older                   = true andalso
+    test_number_in_month            = true andalso
+    test_number_in_months           = true andalso
+    test_dates_in_month             = true andalso
+    test_dates_in_months            = true andalso
+    test_get_nth                    = true andalso
+    test_date_to_string             = true andalso
+    test_number_before_matching_sum = true andalso
+    test_what_month                 = true andalso
+    test_month_range
 
 (*
 val test2 = number_in_month([(2012,2,28),(2013,12,1)],2) = 1

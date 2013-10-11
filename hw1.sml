@@ -75,15 +75,45 @@ fun date_to_string (d: int*int*int) =
  * last list element at which the total sum was less that the value
  * of passed in integer.
  * - This may be a weird way of doing it, but the prof did mntion in his
- * - slides that functions could be used in let expressions. 
+ *   slides that functions could be used in let expressions. 
  * - I redefine (shadow) number_before_matching_sum to add an index paramter
- * - that keeps track of the position in the list. *)
+ *   that keeps track of the position in the list. *
+ * - I'm aware (from class forum) that there are other ways to solve this
+ *   without a helper function. However, as we will soon see, pattern matching
+ *   function definitions do exactly this--and may be more idiomatic. 
+ * - +1 issue. *)
 fun number_before_matching_sum (n: int, l: int list) =
     let 
         fun number_before_matching_sum (n: int, l: int list, index: int) =
-            if n < 0 then index-1  (* original n WILL BE positive *)
+            if n <= 0 then index  (* original n WILL BE positive *)
             else number_before_matching_sum(n-hd l, tl l, index+1)
     in
-        number_before_matching_sum(n, l, 0)
+        number_before_matching_sum(n-hd l, tl l, 0)
     end
-(* number_before_matching_sum(1,[1,1]) --> imposible??? *)
+
+(* Problem 9: takes a day of year (1-365) and returns the month it fall in
+   (1-12)  *)
+fun what_month (d: int) =
+    let
+                 (* Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec *)
+        val days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    in
+        number_before_matching_sum(d, days) + 1   (* nbms returns month BEFORE *)
+    end
+
+(* Problem 10: like problem 9 but range of months between (inclusive)
+   of two dates *)
+fun month_range (d1: int, d2: int) =
+    if (d1 > d2) then []
+    else what_month(d1) :: month_range(d1+1, d2)
+
+(* Problem 11: *)
+fun oldest (l: (int*int*int) list) =
+    if null l then NONE
+    else
+        let val older = oldest(tl l)
+        in
+            if isSome older andalso valOf older < hd l
+            then older
+            else SOME hd l
+        end
