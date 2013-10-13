@@ -119,7 +119,8 @@ fun month_range (d1: int, d2: int) =
 
 
 (* Problem 11: return oldest date in list (SOME) or (NONE) if list empty 
- * - doing it like better_max in notes *)
+ * - doing it like better_max in notes 
+ * - at this point in the class I feel it cleaner than better_max2 *)
 fun oldest (l: (int*int*int) list) =
     if null l then NONE
     else
