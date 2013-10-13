@@ -3,7 +3,10 @@
 
 (* This homework deals with operations on dates.
  * Dates are of type int*int*int
- * As function parameters, I'll use 'd' to denote a date. E.g. d1, d2, etc. *)
+ * As function parameters, I'll use 'd' to denote a date. E.g. d1, d2, etc. 
+ * Short comments at begining of functions are just to remind me what they're
+ * doing--for full details see the assignment sheet *)
+
 
 (* Return "day of year" as required in assignment
  * - using let here means we don't have to check for pathalogical cases *)
@@ -32,11 +35,13 @@ fun number_in_month (l: (int*int*int) list, m: int) =
         then 1 + number_in_month(tl l, m)
         else number_in_month(tl l, m)
 
+
 (* Problem 3: like problem 2, but check for any dates in a LIST of months
  * - no repetition in list of months *)
 fun number_in_months (l: (int*int*int) list, m: int list) =
     if null m then 0
     else number_in_month(l, hd m) + number_in_months(l, tl m)
+
 
 (* Problem 4: return LIST of dates in list that occur in provided month 
  * - returned list of dates must be in order originally given *)
@@ -47,6 +52,7 @@ fun dates_in_month (l: (int*int*int) list, m: int) =
         then hd l :: dates_in_month(tl l, m)
         else dates_in_month(tl l, m)
 
+
 (* Problem 5: like problem 4, but check for ANY dates in a LIST of months 
  * - no repetion in the list of months 
  * - no statement that the returned list must be in original order *)
@@ -54,10 +60,12 @@ fun dates_in_months (l: (int*int*int) list, m: int list) =
     if null m then []
     else dates_in_month(l, hd m) @ dates_in_months(l, tl m)
 
+
 (* Problem 6: return the nth element in a list of strings *)
 fun get_nth (l: string list, n: int) =
     if n = 1 then hd l
     else get_nth(tl l, n-1)
+
 
 (* Problem 7: return a string of the form "Month day, year" for passed date *)
 fun date_to_string (d: int*int*int) =
@@ -71,6 +79,7 @@ fun date_to_string (d: int*int*int) =
         Int.toString(#1 d)
     end
 
+
 (* Problem 8: sequentially sum elements of list, returning index of the
  * last list element at which the total sum was less that the value
  * of passed in integer.
@@ -80,16 +89,16 @@ fun date_to_string (d: int*int*int) =
  *   that keeps track of the position in the list. *
  * - I'm aware (from class forum) that there are other ways to solve this
  *   without a helper function. However, as we will soon see, pattern matching
- *   function definitions do exactly this--and may be more idiomatic. 
- * - +1 issue. *)
-fun number_before_matching_sum (n: int, l: int list) =
+ *   function definitions do exactly this--and may be more idiomatic. *)
+fun number_before_reaching_sum (n: int, l: int list) =
     let 
-        fun number_before_matching_sum (n: int, l: int list, index: int) =
+        fun number_before_reaching_sum (n: int, l: int list, index: int) =
             if n <= 0 then index  (* original n WILL BE positive *)
-            else number_before_matching_sum(n-hd l, tl l, index+1)
+            else number_before_reaching_sum(n-hd l, tl l, index+1)
     in
-        number_before_matching_sum(n-hd l, tl l, 0)
+        number_before_reaching_sum(n-hd l, tl l, 0)
     end
+
 
 (* Problem 9: takes a day of year (1-365) and returns the month it fall in
    (1-12)  *)
@@ -98,8 +107,9 @@ fun what_month (d: int) =
                  (* Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec *)
         val days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     in
-        number_before_matching_sum(d, days) + 1   (* nbms returns month BEFORE *)
+        number_before_reaching_sum(d, days) + 1   (* nbms returns month BEFORE *)
     end
+
 
 (* Problem 10: like problem 9 but range of months between (inclusive)
    of two dates *)
@@ -107,13 +117,16 @@ fun month_range (d1: int, d2: int) =
     if (d1 > d2) then []
     else what_month(d1) :: month_range(d1+1, d2)
 
-(* Problem 11: *)
+
+(* Problem 11: return oldest date in list (SOME) or (NONE) if list empty 
+ * - doing it like better_max in notes *)
 fun oldest (l: (int*int*int) list) =
     if null l then NONE
     else
         let val older = oldest(tl l)
         in
-            if isSome older andalso valOf older < hd l
+            if isSome older andalso is_older(valOf older, hd l)
             then older
-            else SOME hd l
+            else SOME (hd l)
         end
+
