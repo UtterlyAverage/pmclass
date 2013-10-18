@@ -1,3 +1,6 @@
+(* Homework 2, Coursera Programming Languages, Fall 2013
+ * Allen McPherson   Los Alamos, New Mexico *)
+
 (* Dan Grossman, Coursera PL, HW2 Provided Code *)
 
 (* if you use this function to compare two strings (returns true if the same
@@ -9,17 +12,15 @@ fun same_string(s1 : string, s2 : string) =
 (*  WARNING -- no null, hd, tl, isSome, valOf, or #   *)
 
 (* put your solutions for problem 1 here *)
-(* use "hw2-1.sml"; *)
 
-(* Return NONE if s not in l, or a list (SOME) identical to l but without s *)
-fun all_except_option(s: string, l: list) =
+(*----------------- Problem 1 -----------------*)
+
+(* Return NONE if string s not in l, or a list (SOME) identical to l but without s *)
+fun all_except_option(s, l) =
     case l of
-        []       => NONE
-      | h::[]  => if not same_string(s, h) then SOME h else NONE
-      | h::t   => if not same_string(s, h) 
-                    then h :: all_except_option(s,t)
-                    else all_except_option(s,t)
-        
+        []     => NONE
+      | h::t   => if same_string(s, h) then SOME t
+                  else h :: all_except_option(s, t)
     
 
 (* you may assume that Num is always used with values 2, 3, ..., 10
@@ -34,4 +35,5 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
-(* use "hw2-2.sml"; *)
+
+(*----------------- Problem 2 -----------------*)
