@@ -125,3 +125,17 @@ fun score (cs, goal) =
         else prelim
     end                     
                    
+fun officiate (cards, moves, goal) =
+    let
+        fun play (cards, moves, goal, held) =
+            case moves of
+                [] => score(held, goal)
+              | Discard c::t => play(cards, t, goal, remove_card(held, c, IllegalMove))
+              | Draw::t => case cards of 
+                               [] => score(held, goal)
+                             | draw::cards' => if sum_cards(draw::held) > goal
+                                               then score(draw::held, goal)
+                                               else play(cards, t, goal, draw::held)
+    in
+        play (cards, moves, goal, [])
+    end

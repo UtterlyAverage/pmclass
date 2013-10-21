@@ -129,7 +129,6 @@ val test8 = all_same_color([(Hearts, Ace), (Hearts, Ace)]) = true
 val test9 = sum_cards([(Clubs, Num 2),(Clubs, Num 2)]) = 4
 
 val test10 = score([(Hearts, Num 2),(Clubs, Num 4)],10) = 4
-(*
 
 
 val test11 = officiate([(Hearts, Num 2),(Clubs, Num 4)],[Draw], 15) = 6
@@ -144,5 +143,3 @@ val test13 = ((officiate([(Clubs,Jack),(Spades,Num(8))],
                          42);
                false) 
               handle IllegalMove => true)
-             
-*)             
