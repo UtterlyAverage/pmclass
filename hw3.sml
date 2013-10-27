@@ -42,23 +42,26 @@ datatype typ = Anything
 (*----------------- Problem 1 -----------------*)
 
 fun only_capitals xs: string list = 
-    List.filter (fn s => Char.isUpper(String.sub(s,0)))  xs
+    List.filter(fn s => Char.isUpper(String.sub(s,0)))  xs
 
 (*----------------- Problem 2 -----------------*)
 
 fun longest_string1 xs =
-    List.foldl (fn (x,y) => if String.size(x) > String.size(y) then x else y) "" xs
+    List.foldl(fn (x,y) => if String.size(x) > String.size(y) then x else y) "" xs
 
 (*----------------- Problem 3 -----------------*)
 
 fun longest_string2 xs =
-    List.foldl (fn (x,y) => if String.size(x) >= String.size(y) then x else y) "" xs
+    List.foldl(fn (x,y) => if String.size(x) >= String.size(y) then x else y) "" xs
 
 (*----------------- Problem 4 -----------------*)
 
-fun longest_string_helper
+fun longest_string_helper f xs =
+    List.foldl(fn (x,y) => if f(String.size(x), String.size(y)) then x else y) "" xs
 
-fun longest_string3
+val longest_string3 =
+    longest_string_helper(fn (x,y) => x > y)
 
-fun longest_string4
+val longest_string4 =
+    longest_string_helper(fn (x,y) => x >= y)
 

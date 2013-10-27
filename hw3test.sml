@@ -11,15 +11,19 @@ use "hw3.sml";
 
 val test1 = only_capitals ["A","B","C"] = ["A","B","C"]
 
-val test2 = longest_string1 ["A","bc","C"] = "bc"
+val test2 = longest_string1 ["A","bc","C"] = "bc"              andalso
+            longest_string1 ["aaa", "bbb", "cc"] = "aaa"
+
+val test3 = longest_string2 ["A","bc","C"] = "bc"              andalso
+            longest_string2 ["aaa", "bbb", "cc"] = "bbb"
+
+val test4a= longest_string3 ["A","bc","C"] = "bc"              andalso
+            longest_string3 ["aaa", "bbb", "cc"] = "aaa"
+
+val test4b= longest_string4 ["A","B","C"] = "C"                andalso
+            longest_string4 ["aaa", "bbb", "cc"] = "bbb"
 
 (*
-
-val test3 = longest_string2 ["A","bc","C"] = "bc"
-
-val test4a= longest_string3 ["A","bc","C"] = "bc"
-
-val test4b= longest_string4 ["A","B","C"] = "C"
 
 val test5 = longest_capitalized ["A","bc","C"] = "A";
 
