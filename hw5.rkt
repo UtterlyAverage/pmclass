@@ -21,8 +21,15 @@
 (struct closure (env fun) #:transparent) 
 
 ;; Problem 1
+(define (racketlist->mupllist xs)
+  (if (null? xs)
+      (aunit)
+      (apair (car xs) (racketlist->mupllist (cdr xs)))))
 
-;; CHANGE (put your solutions here)
+(define (mupllist->racketlist xs)
+  (if (aunit? xs)
+      null
+      (cons (apair-e1 xs) (mupllist->racketlist (apair-e2 xs)))))
 
 ;; Problem 2
 
@@ -48,6 +55,19 @@
                (int (+ (int-num v1) 
                        (int-num v2)))
                (error "MUPL addition applied to non-number")))]
+        [(int? e) e]
+        [(ifgreater? e)
+         (let ([v1 (eval-under-env (ifgreater-e1 e) env)]
+               [v2 (eval-under-env (ifgreater-e2 e) env)])
+           (if (and (int? v1)
+                    (int? v2))
+               (if (> (int-num v1) 
+                      (int-num v2))
+                   (eval-under-env (ifgreater-e3 e) env)
+                   (eval-under-env (ifgreater-e4 e) env))
+               (error "MUPL ifgreater applied to non-number")))]
+        [(closure? e) e]
+        [(fun? e) (closure env e)]  
         ;; CHANGE add more cases here
         [#t (error (format "bad MUPL expression: ~v" e))]))
 
