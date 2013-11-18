@@ -83,7 +83,6 @@
                                                    (cons cf c2)
                                                    (cons cf (cons cn c2)))))
                (error "MUPL call applied to non-closure")))]
-         
         [(apair? e) (apair (eval-under-env (apair-e1 e) env)
                            (eval-under-env (apair-e2 e) env))]
         [(fst? e) 
@@ -124,13 +123,12 @@
 
 ;; Problem 4
 (define mupl-map
-  (fun #f "f" (fun "loop" "xs" (ifgreater 
-                    (isaunit (var "xs")) 
-                    (int 0)
-                    (aunit)
-                    (apair
-                     (call (var "f") (fst (var "xs")))
-                     (call (var "loop") (snd (var "xs"))))))))
+  (fun #f "function" 
+       (fun "f" "xs" 
+            (ifaunit (var "xs")
+                       (aunit)
+                       (apair (call (var "function") (fst (var "xs"))) 
+                              (call (var "f") (snd (var "xs"))))))))
 
 (define mupl-mapAddN 
   (mlet "map" mupl-map
